@@ -1,0 +1,41 @@
+{
+  "name": "numbco-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts developed by Numb Co. for the use of all.",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "test": "hardhat test",
+    "clean": "hardhat clean",
+    "compile": "hardhat compile"
+  },
+  "keywords": [
+    "solidity"
+  ],
+  "author": "Shawn Price <shawn@numbco.art> (https://numbco.art)",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "2.0.3",
+    "@nomiclabs/hardhat-waffle": "2.0.1",
+    "chai": "4.3.4",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "3.4.1",
+    "eslint-plugin-promise": "5.2.0",
+    "ethereum-waffle": "3.4.0",
+    "ethers": "5.5.2",
+    "hardhat": "2.8.0",
+    "keccak256": "1.0.6",
+    "merkletreejs": "0.2.27",
+    "prettier": "2.5.0",
+    "prettier-plugin-solidity": "1.0.0-beta.13",
+    "solhint": "3.3.6",
+    "solidity-coverage": "0.7.17"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "4.4.1"
+  }
+}
