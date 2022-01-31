@@ -1,13 +1,17 @@
 const { expect } = require("chai")
 const { ethers } = require("hardhat")
-const { getAddressTreeRoot, getAllocationsTreeRoot, getAddressAllowanceHash } = require("../")
+const {
+  getAddressTreeRoot,
+  getAllocationsTreeRoot,
+  getAddressAllowanceHash,
+} = require("../")
 const keccak256 = require("keccak256")
 
 describe("AllowList", function () {
-  const ALLOCATION_ONE = "1"
-  const ALLOCATION_TWO = "2"
-  const ALLOCATION_THREE = "3"
-  const ALLOCATION_FOUR = "4"
+  const ALLOCATION_ONE = 1
+  const ALLOCATION_TWO = 2
+  const ALLOCATION_THREE = 3
+  const ALLOCATION_FOUR = 4
   let allowList
   let owner
   let addr1
@@ -27,7 +31,16 @@ describe("AllowList", function () {
   let addressAllocationRoot
 
   before(async function () {
-    ;[owner, addr1, addr2, addr3, addr4, addr5, addr6, addr7] = await ethers.getSigners()
+    ;[
+      owner,
+      addr1,
+      addr2,
+      addr3,
+      addr4,
+      addr5,
+      addr6,
+      addr7,
+    ] = await ethers.getSigners()
 
     const AllowList = await ethers.getContractFactory("AllowList")
 
@@ -56,10 +69,22 @@ describe("AllowList", function () {
     const addr3Leaf = keccak256(addr3.address)
     const addr4Leaf = keccak256(addr4.address)
     const addr5Leaf = keccak256(addr5.address)
-    const addr1AllocationLeaf = getAddressAllowanceHash(addr1.address, ALLOCATION_ONE)
-    const addr2AllocationLeaf = getAddressAllowanceHash(addr2.address, ALLOCATION_TWO)
-    const addr3AllocationLeaf = getAddressAllowanceHash(addr3.address, ALLOCATION_THREE)
-    const addr4AllocationLeaf = getAddressAllowanceHash(addr4.address, ALLOCATION_FOUR)
+    const addr1AllocationLeaf = getAddressAllowanceHash(
+      addr1.address,
+      ALLOCATION_ONE
+    )
+    const addr2AllocationLeaf = getAddressAllowanceHash(
+      addr2.address,
+      ALLOCATION_TWO
+    )
+    const addr3AllocationLeaf = getAddressAllowanceHash(
+      addr3.address,
+      ALLOCATION_THREE
+    )
+    const addr4AllocationLeaf = getAddressAllowanceHash(
+      addr4.address,
+      ALLOCATION_FOUR
+    )
     root1Addr1Proof = tree1.getHexProof(addr1Leaf)
     root1Addr2Proof = tree1.getHexProof(addr2Leaf)
     root1Addr3Proof = tree1.getHexProof(addr3Leaf)
@@ -76,13 +101,17 @@ describe("AllowList", function () {
   describe("A list of addresses", () => {
     describe("accepts", () => {
       it("a proof that matches an address", async function () {
-        expect(await allowList.isAddressOnList(root1, root1Addr1Proof, addr1.address)).to.equal(true)
+        expect(
+          await allowList.isAddressOnList(root1, root1Addr1Proof, addr1.address)
+        ).to.equal(true)
       })
     })
 
     describe("does not accept", () => {
       it("a proof that does not match an address", async function () {
-        expect(await allowList.isAddressOnList(root1, root1Addr2Proof, addr1.address)).to.equal(false)
+        expect(
+          await allowList.isAddressOnList(root1, root1Addr2Proof, addr1.address)
+        ).to.equal(false)
       })
 
       it("a non allowlisted address", async function () {
@@ -94,25 +123,47 @@ describe("AllowList", function () {
   describe("A list of addresses with allocations", () => {
     describe("accepts", () => {
       it("a proof that matches an address and allocation", async function () {
-        expect(await allowList.isAllocationOnList(root2, root2Addr1Proof, addr1.address, ALLOCATION_ONE)).to.equal(true)
+        expect(
+          await allowList.isAllocationOnList(
+            root2,
+            root2Addr1Proof,
+            addr1.address,
+            ALLOCATION_ONE
+          )
+        ).to.equal(true)
       })
       describe("does not accept", () => {
         it("a proof that does not match an address", async function () {
-          expect(await allowList.isAllocationOnList(root2, root2Addr2Proof, addr1.address, ALLOCATION_ONE)).to.equal(
-            false
-          )
+          expect(
+            await allowList.isAllocationOnList(
+              root2,
+              root2Addr2Proof,
+              addr1.address,
+              ALLOCATION_ONE
+            )
+          ).to.equal(false)
         })
 
         it("a proof that matches an address but does not match an allocation", async function () {
-          expect(await allowList.isAllocationOnList(root2, root2Addr2Proof, addr2.address, ALLOCATION_THREE)).to.equal(
-            false
-          )
+          expect(
+            await allowList.isAllocationOnList(
+              root2,
+              root2Addr2Proof,
+              addr2.address,
+              ALLOCATION_THREE
+            )
+          ).to.equal(false)
         })
 
         it("a proof that does not match an address but does match an allocation", async function () {
-          expect(await allowList.isAllocationOnList(root2, root2Addr3Proof, addr2.address, ALLOCATION_THREE)).to.equal(
-            false
-          )
+          expect(
+            await allowList.isAllocationOnList(
+              root2,
+              root2Addr3Proof,
+              addr2.address,
+              ALLOCATION_THREE
+            )
+          ).to.equal(false)
         })
 
         it("a non allowlisted address", async function () {

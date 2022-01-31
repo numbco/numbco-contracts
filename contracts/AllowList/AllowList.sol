@@ -46,9 +46,11 @@ contract AllowList {
     bytes32 merkleRoot,
     bytes32[] memory proof,
     address account,
-    string memory allocation
+    uint256 allocation
   ) public pure returns (bool) {
-    bytes32 leaf = keccak256(abi.encodePacked(address(account), string(allocation)));
+    bytes32 leaf = keccak256(
+      abi.encodePacked(address(account), uint256(allocation))
+    );
     return MerkleProof.verify(proof, merkleRoot, leaf);
   }
 }

@@ -10,11 +10,18 @@ const getAddressTreeRoot = (addresses) => {
 }
 
 const getAddressAllowanceHash = (address, allowance) => {
-  return Buffer.from(ethers.utils.solidityKeccak256(["address", "string"], [address, allowance]).slice(2), "hex")
+  return Buffer.from(
+    ethers.utils
+      .solidityKeccak256(["address", "uint256"], [address, allowance])
+      .slice(2),
+    "hex"
+  )
 }
 
 const getAllocationsTreeRoot = (addressAllocations) => {
-  const leafNodes = Object.entries(addressAllocations).map((aa) => getAddressAllowanceHash(...aa))
+  const leafNodes = Object.entries(addressAllocations).map((aa) =>
+    getAddressAllowanceHash(...aa)
+  )
   const tree = new MerkleTree(leafNodes, keccak256, { sortPairs: true })
   const root = tree.getHexRoot()
   return { root, tree }
